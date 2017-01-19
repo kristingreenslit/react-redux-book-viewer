@@ -8,7 +8,12 @@ class BookList extends Component {
 	renderList() {
 		return this.props.books.map((book) => {
 			return (
-				<li key={book.title} className="list-group-item">{book.title}</li>
+				<li 
+					key={book.title}
+					onClick={() => this.props.selectBook(book)}
+					className="list-group-item">
+					{book.title}
+				</li>
 			);
 	});
 }
@@ -23,8 +28,8 @@ class BookList extends Component {
 }
 // takes application state in as an object - provides link between Redux and React
 // whatever object is returned will show up as props within BookList
+// if application state changes, container (BookList) will re-render
 function mapStateToProps(state) {
-	// if application state changes, container (BookList) will re-render
 	return {
 		books: state.books
 	};
@@ -33,8 +38,8 @@ function mapStateToProps(state) {
 // passing redux an object w/a key and a value, value is from action creator imported at the top of the file
 // second argument after the object is "dispatch" function
 // anything returned from action container function will end up as props in the BookList container
+// whenever selectBook is called, the result should be passed to all reducers in the application by way of BindActionCreators
 function mapDispatchToProps(dispatch) {
-	// whenever selectBook is called, the result should be passed to all reducers in the application by way of BindActionCreators
 	return bindActionCreators({ selectBook: selectBook }, dispatch);
 }
 
